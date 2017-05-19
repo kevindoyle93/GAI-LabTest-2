@@ -22,9 +22,10 @@ public class BeeSpawner : MonoBehaviour
     {
         while (true)
         {
-            if (numBees < 10)
+            if (numBees < 10 && pollenCount >= 5.0f)
             {
                 Instantiate(beePrefab);
+                pollenCount -= 5.0f;
             }
 
             yield return new WaitForSeconds(2.0f);
