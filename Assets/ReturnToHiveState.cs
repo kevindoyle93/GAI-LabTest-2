@@ -17,7 +17,7 @@ public class ReturnToHiveState : State
 
     public override void Exit()
     {
-
+        arrive.targetGameObject = null;
     }
 
     public override void Update()
