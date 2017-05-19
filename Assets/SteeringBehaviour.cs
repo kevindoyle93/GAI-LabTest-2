@@ -8,5 +8,10 @@ public abstract class SteeringBehaviour : MonoBehaviour
 
     public float weight = 1.0f;
 
+    void Awake()
+    {
+        boid = GetComponent<Boid>();
+    }
+
     public abstract Vector3 Calculate();
 }

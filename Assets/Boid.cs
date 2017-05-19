@@ -35,6 +35,11 @@ public class Boid : MonoBehaviour
         Vector3 toTarget = target - transform.position;
         float distance = toTarget.magnitude;
 
+        if (distance == 0)
+        {
+            return Vector3.zero;
+        }
+
         float ramped = maxSpeed * (distance / slowingDistance);
         float clamped = Mathf.Min(ramped, slowingDistance);
 
