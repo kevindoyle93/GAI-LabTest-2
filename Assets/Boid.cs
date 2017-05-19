@@ -41,10 +41,10 @@ public class Boid : MonoBehaviour
         }
 
         float ramped = maxSpeed * (distance / slowingDistance);
-        float clamped = Mathf.Min(ramped, slowingDistance);
+        float clamped = Mathf.Min(ramped, maxSpeed);
 
-        Vector3 desired = clamped * (toTarget / distance);
-        return desired - velocity;
+        Vector3 desiredVelocity = clamped * (toTarget / distance);
+        return desiredVelocity - velocity;
     }
 
     Vector3 Calculate()
@@ -64,25 +64,25 @@ public class Boid : MonoBehaviour
         force = Calculate();
         Vector3 newAcceleration = force / mass;
 
-        float smoothAccelerationRate = Mathf.Clamp(9.0f * Time.deltaTime, 0.15f, 0.4f) / 2.0f;
-        acceleration = Vector3.Lerp(acceleration, newAcceleration, smoothAccelerationRate);
+        float smoothRate = Mathf.Clamp(9.0f * Time.deltaTime, 0.15f, 0.4f) / 2.0f;
+        acceleration = Vector3.Lerp(acceleration, newAcceleration, smoothRate);
 
         velocity += acceleration * Time.deltaTime;
+
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
 
         Vector3 globalUp = new Vector3(0, 0.2f, 0);
-        Vector3 accelerationUp = acceleration * 0.05f;
-        Vector3 bankingUp = globalUp + accelerationUp;
-
-        float smoothBankingRate = Time.deltaTime * 3.0f;
-        Vector3 tempUp = Vector3.Lerp(transform.up, bankingUp, smoothBankingRate);
+        Vector3 accelUp = acceleration * 0.05f;
+        Vector3 bankUp = accelUp + globalUp;
+        smoothRate = Time.deltaTime * 3.0f;
+        Vector3 tempUp = transform.up;
+        tempUp = Vector3.Lerp(tempUp, bankUp, smoothRate);
 
         if (velocity.magnitude > 0.0001f)
         {
             transform.LookAt(transform.position + velocity, tempUp);
             velocity *= 0.99f;
         }
-
         transform.position += velocity * Time.deltaTime;
-	}
+    }
 }

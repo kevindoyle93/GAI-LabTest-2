@@ -25,6 +25,7 @@ public class BeeSpawner : MonoBehaviour
             if (numBees < 10 && pollenCount >= 5.0f)
             {
                 GameObject bee = Instantiate(beePrefab);
+                bee.transform.parent = transform;
                 bee.GetComponent<StateMachine>().SwitchState(new ExploreState(bee));
 
                 pollenCount -= 5.0f;

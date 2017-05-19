@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class ExploreState : State
 {
     Arrive arrive;
-
-    private bool searching = true;
+    
     private float searchRadius = 20.0f;
 
     private float searchUpdateRate = 0.2f;
@@ -62,8 +60,7 @@ public class ExploreState : State
         {
             if (c.gameObject.tag.Equals("flower"))
             {
-                // gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
-                Debug.Log("Found one");
+                gameObject.GetComponent<StateMachine>().SwitchState(new MoveToFlowerState(gameObject, c.gameObject));
             }
         }
     }
