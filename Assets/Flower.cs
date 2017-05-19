@@ -17,5 +17,7 @@ public class Flower : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.y = transform.localScale.y / 2;
         transform.position = pos;
+
+        GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.black, Color.yellow, polen);
 	}
 }

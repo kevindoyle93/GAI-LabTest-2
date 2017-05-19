@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 public class CollectPollenState : State
 {
@@ -29,6 +27,13 @@ public class CollectPollenState : State
 
     public override void Update()
     {
+        // Check if other bee got this flower first
+        if (flower == null)
+        {
+            gameObject.GetComponent<Arrive>().targetGameObject = null;
+            gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
+        }
+
         float availablePollen;
         if (flower.polen > Time.deltaTime)
         {
@@ -46,12 +51,6 @@ public class CollectPollenState : State
         {
             GameObject.Destroy(flower.gameObject);
             gameObject.GetComponent<StateMachine>().SwitchState(new ReturnToHiveState(gameObject));
-        }
-
-        // Check if other bee got this flower first
-        if (flower == null)
-        {
-            gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
         }
     }
 }

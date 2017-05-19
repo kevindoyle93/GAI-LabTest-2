@@ -18,14 +18,7 @@ public class ExploreState : State
     {
         arrive = gameObject.GetComponent<Arrive>();
 
-        if (arrive == null)
-        {
-            arrive = gameObject.AddComponent<Arrive>();
-        }
-
         ChooseNewTarget();
-
-        gameObject.GetComponent<Boid>().behaviours.Add(arrive);
     }
 
     public override void Exit()
@@ -54,8 +47,8 @@ public class ExploreState : State
 
     void ChooseNewTarget()
     {
-        Debug.Log("here");
-        arrive.targetPosition = new Vector3(Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius), 0, Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius));
+        Vector3 target = new Vector3(Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius), 0, Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius));
+        arrive.targetPosition = target;
     }
 
     void CheckForFlowers()
