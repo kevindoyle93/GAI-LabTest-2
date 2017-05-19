@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class ExploreState : State
 {
@@ -9,6 +8,9 @@ public class ExploreState : State
     private bool searching = true;
     private float searchRadius = 20.0f;
 
+    private float searchUpdateRate = 0.2f;
+    private float searchUpdateAcc = 0.0f;
+
     public ExploreState(GameObject gameObject) : base(gameObject)
     {
         this.gameObject = gameObject;
@@ -16,10 +18,8 @@ public class ExploreState : State
 
     public override void Enter()
     {
-        Vector3 target = ChooseNewTarget();
-
         arrive = gameObject.AddComponent<Arrive>();
-        arrive.targetPosition = target;
+        ChooseNewTarget();
 
         gameObject.GetComponent<Boid>().behaviours.Add(arrive);
     }
@@ -32,6 +32,14 @@ public class ExploreState : State
 
     public override void Update()
     {
+        // Would do on co-routine rather than with accumulator, but State does not extend MonoBehaviour
+        searchUpdateAcc += Time.deltaTime;
+        if (searchUpdateAcc > searchUpdateRate)
+        {
+            CheckForFlowers();
+            searchUpdateAcc = 0.0f;
+        }
+
         if (arrive != null)
         {
             if (Vector3.Distance(gameObject.transform.position, arrive.targetPosition) < 1.0f)
@@ -41,26 +49,21 @@ public class ExploreState : State
         }
     }
 
-    Vector3 ChooseNewTarget()
+    void ChooseNewTarget()
     {
-        return Vector3.zero;
+        arrive.targetPosition = new Vector3(Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius), 0, Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius));
     }
 
-    IEnumerator CheckForFlowers()
+    void CheckForFlowers()
     {
-        while (searching)
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, searchRadius);
+
+        foreach (Collider c in colliders)
         {
-            Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, searchRadius);
-
-            foreach (Collider c in colliders)
+            if (c.gameObject.tag.Equals("flower"))
             {
-                if (c.gameObject.tag.Equals("flower"))
-                {
-                    // gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
-                    Debug.Log("Found one");
-                }
-
-                yield return new WaitForSeconds(5.0f);
+                // gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
+                Debug.Log("Found one");
             }
         }
     }

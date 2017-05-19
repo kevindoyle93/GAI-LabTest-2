@@ -6,7 +6,7 @@ public class FlowerSpawner : MonoBehaviour {
 
     public GameObject resporcePrefab;
 
-    public float radius = 50;
+    public static float radius = 50;
 
 	// Use this for initialization
 	void Start () {
