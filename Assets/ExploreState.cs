@@ -16,7 +16,13 @@ public class ExploreState : State
 
     public override void Enter()
     {
-        arrive = gameObject.AddComponent<Arrive>();
+        arrive = gameObject.GetComponent<Arrive>();
+
+        if (arrive == null)
+        {
+            arrive = gameObject.AddComponent<Arrive>();
+        }
+
         ChooseNewTarget();
 
         gameObject.GetComponent<Boid>().behaviours.Add(arrive);
@@ -24,8 +30,7 @@ public class ExploreState : State
 
     public override void Exit()
     {
-        gameObject.GetComponent<Boid>().behaviours.Remove(arrive);
-        GameObject.Destroy(arrive);
+
     }
 
     public override void Update()

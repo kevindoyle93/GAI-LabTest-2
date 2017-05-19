@@ -54,6 +54,7 @@ public class Boid : MonoBehaviour
         foreach (SteeringBehaviour b in behaviours)
         {
             force += b.Calculate() * b.weight;
+            Debug.Log(b);
         }
 
         return force;

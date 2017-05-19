@@ -19,15 +19,13 @@ public class MoveToFlowerState : State
 
     public override void Enter()
     {
-        arrive = gameObject.AddComponent<Arrive>();
+        arrive = gameObject.GetComponent<Arrive>();
         arrive.targetGameObject = flower;
-        gameObject.GetComponent<Boid>().behaviours.Add(arrive);
     }
 
     public override void Exit()
     {
-        gameObject.GetComponent<Boid>().behaviours.Remove(arrive);
-        GameObject.Destroy(arrive);
+
     }
 
     public override void Update()

@@ -11,15 +11,13 @@ public class ReturnToHiveState : State
 
     public override void Enter()
     {
-        arrive = gameObject.AddComponent<Arrive>();
+        arrive = gameObject.GetComponent<Arrive>();
         arrive.targetGameObject = gameObject.transform.parent.gameObject;
-        gameObject.GetComponent<Boid>().behaviours.Add(arrive);
     }
 
     public override void Exit()
     {
-        gameObject.GetComponent<Boid>().behaviours.Remove(arrive);
-        GameObject.Destroy(arrive);
+
     }
 
     public override void Update()
