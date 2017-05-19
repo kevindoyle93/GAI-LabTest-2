@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 public class ReturnToHiveState : State
 {
@@ -28,7 +26,9 @@ public class ReturnToHiveState : State
     {
         if (Vector3.Distance(gameObject.transform.position, gameObject.transform.parent.transform.position) < 1.0f)
         {
-            Debug.Log("Home");
+            gameObject.transform.parent.GetComponent<BeeSpawner>().pollenCount += gameObject.GetComponent<Bee>().collectedPollen;
+            gameObject.GetComponent<Bee>().collectedPollen = 0.0f;
+            gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
         }
     }
 }
