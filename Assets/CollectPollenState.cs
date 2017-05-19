@@ -47,5 +47,11 @@ public class CollectPollenState : State
             GameObject.Destroy(flower.gameObject);
             gameObject.GetComponent<StateMachine>().SwitchState(new ReturnToHiveState(gameObject));
         }
+
+        // Check if other bee got this flower first
+        if (flower == null)
+        {
+            gameObject.GetComponent<StateMachine>().SwitchState(new ExploreState(gameObject));
+        }
     }
 }

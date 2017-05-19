@@ -54,6 +54,7 @@ public class ExploreState : State
 
     void ChooseNewTarget()
     {
+        Debug.Log("here");
         arrive.targetPosition = new Vector3(Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius), 0, Random.Range(-FlowerSpawner.radius, FlowerSpawner.radius));
     }
 
